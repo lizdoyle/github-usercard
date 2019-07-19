@@ -3,15 +3,16 @@
            https://api.github.com/users/<your name>
 */
 axios.get('https://api.github.com/users/lizdoyle')
-    .then( res => {
-      console.log('data: ', res);
-      createCard(data.res)
-      const cards = document.querySelector('.cards');
-      cards.appendChild();
-      console.log(cards.appendChild(createGHCard(data.res)))
+    .then( data => {
+      console.log('api is working', data);
+      // createCard(data.res)
+      // const cards = document.querySelector('.cards');
+      const apiData = data.data;
+      GHCards.appendChild(createGHCard(apiData))
+      // console.log(cards.appendChild(createGHCard(res.data)))
     })
-    .catch ((err) => {
-      console.log('error: ', err);
+    .catch (err => {
+      console.log('Error, not pulling api', err);
     })
 
 
@@ -41,15 +42,19 @@ const GHCards = document.querySelector('.cards');
 
 const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
-axios.get(`https://api.github.com/users/${friend}`)
+followersArray.forEach(follower => {
+  axios.get(`https://api.github.com/users/${follower}`)
     .then( data => {
       console.log('api is working', data);
       const apiData = data.data;
-      cards.appendChild(createGHCard(apiData))
+      console.log(apiData)
+      GHCards.appendChild(createGHCard(apiData))
     })
-    .catch( err => {
-      console.log('Error, not pulling api', err)
-    })
+  
+  .catch (err => {
+    console.log('Error, not pulling api', err);
+  })
+})
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -70,11 +75,11 @@ axios.get(`https://api.github.com/users/${friend}`)
 
 */
 
-function createGHCard(followersArray) {
+function createGHCard(login) {
   
   // creating all elements
   const card = document.createElement('div');
-  card.classList.add('cards');
+  card.classList.add('card');
 
   const userImg = document.createElement('img');
   const cardInfo = document.createElement('div');
@@ -92,20 +97,30 @@ function createGHCard(followersArray) {
   // let address.setAttribute('href', link)
   // const link = #; 
 
-  userImg.src = data.avatar_url;
-  userName.textContent = data.name;
-  userUsername.textContent = data.login;
-  location.textContent = data.location;
-  profileLink.textContent = data.url;
-  followers.textContent = data.followers;
-  following.textContent = data.following;
-  bio.textContent = data.bio;
+  userImg.src = login.avatar_url;
+  userName.textContent =  login.name;
+  userUsername.textContent = login.login;
+  location.textContent = login.location;
+  profileLink.textContent = login.url;
+  followers.textContent = login.followers;
+  following.textContent = login.following;
+  bio.textContent = login.bio;
 
   // adding the classList
   card.classList.add('card');
   cardInfo.classList.add('name');
   userName.classList.add('p');
   userUsername.classList.add('username');
+  location.classList.add('p');
+  profileLink.classList.add('p');
+  followers.classList.add('p');
+  following.classList.add('p');
+  bio.classList.add('p');
+
+
+
+
+
   // cardInfo.classList.add('p');
   // profile.classList.add('a');
   // cardInfo.classList.add('p');
@@ -114,8 +129,9 @@ function createGHCard(followersArray) {
 
 
 // appending
-card.appendChild('userImg');
-card.appendChild('cardInfo');
+// card.appendChild('userImg');
+// console.log(card);
+// card.appendChild('cardInfo');
 
 cardInfo.appendChild('userName');
 cardInfo.appendChild('userUserName');
