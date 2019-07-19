@@ -2,7 +2,17 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-
+axios.get('https://api.github.com/users/lizdoyle')
+    .then( res => {
+      console.log('data: ', res);
+      createCard(data.res)
+      const cards = document.querySelector('.cards');
+      cards.appendChild();
+      console.log(cards.appendChild(createGHCard(data.res)))
+    })
+    .catch ((err) => {
+      console.log('error: ', err);
+    })
 
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -17,6 +27,7 @@
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+const GHCards = document.querySelector('.cards');
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -28,8 +39,17 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
 
+axios.get(`https://api.github.com/users/${friend}`)
+    .then( data => {
+      console.log('api is working', data);
+      const apiData = data.data;
+      cards.appendChild(createGHCard(apiData))
+    })
+    .catch( err => {
+      console.log('Error, not pulling api', err)
+    })
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -50,6 +70,66 @@ const followersArray = [];
 
 */
 
+function createGHCard(followersArray) {
+  
+  // creating all elements
+  const card = document.createElement('div');
+  card.classList.add('cards');
+
+  const userImg = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const userName = document.createElement('h3');
+  const userUsername = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const profileLink = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  // setting text content
+  
+  // let address.setAttribute('href', link)
+  // const link = #; 
+
+  userImg.src = data.avatar_url;
+  userName.textContent = data.name;
+  userUsername.textContent = data.login;
+  location.textContent = data.location;
+  profileLink.textContent = data.url;
+  followers.textContent = data.followers;
+  following.textContent = data.following;
+  bio.textContent = data.bio;
+
+  // adding the classList
+  card.classList.add('card');
+  cardInfo.classList.add('name');
+  userName.classList.add('p');
+  userUsername.classList.add('username');
+  // cardInfo.classList.add('p');
+  // profile.classList.add('a');
+  // cardInfo.classList.add('p');
+  // cardInfo.classList.add('p');
+  // cardInfo.classList.add('p');
+
+
+// appending
+card.appendChild('userImg');
+card.appendChild('cardInfo');
+
+cardInfo.appendChild('userName');
+cardInfo.appendChild('userUserName');
+cardInfo.appendChild('location');
+cardInfo.appendChild('profile');
+profile.appendChild('profileLink');
+cardInfo.appendChild('followers');
+cardInfo.appendChild('following');
+cardInfo.appendChild('bio');
+
+
+return card;
+};
+
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
@@ -57,3 +137,38 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+// class GHCard {
+//   constructor(followersArray) {
+//     const cardContainer = document.querySelector('.cards');
+//     followersArray.forEach((cardData) => {
+//       cardContainer.appendChild(this.createGHCard(cardData));
+//     });
+//   }
+
+//   // creates gh card with url
+//   // returns rootElem of gh card
+//   createGHCard(imageURL) {
+//     const card = document.createElement('div');
+//     const userImg = document.createElement('img');
+
+//     card.classList.add('card');
+//     userImg.classList.add('img');
+
+//     userImg.src = imageURL;
+
+//     card.appendChild(userImg);
+
+//     return card;
+//   }
+
+//   // createCardData(data) {
+//   //   const 
+//   // }
+// }
+
+// const GHCards = new GHCard();
+
+
+
+
