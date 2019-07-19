@@ -5,8 +5,6 @@
 axios.get('https://api.github.com/users/lizdoyle')
     .then( data => {
       console.log('api is working', data);
-      // createCard(data.res)
-      // const cards = document.querySelector('.cards');
       const apiData = data.data;
       GHCards.appendChild(createGHCard(apiData))
       // console.log(cards.appendChild(createGHCard(res.data)))
@@ -44,17 +42,18 @@ const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigkne
 
 followersArray.forEach(follower => {
   axios.get(`https://api.github.com/users/${follower}`)
-    .then( data => {
+    .then(data => {
       console.log('api is working', data);
       const apiData = data.data;
-      console.log(apiData)
+    //   console.log(apiData)
       GHCards.appendChild(createGHCard(apiData))
-    })
-  
+        })
   .catch (err => {
     console.log('Error, not pulling api', err);
   })
+
 })
+
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -75,12 +74,10 @@ followersArray.forEach(follower => {
 
 */
 
-function createGHCard(login) {
+function createGHCard(user) {
   
   // creating all elements
   const card = document.createElement('div');
-  card.classList.add('card');
-
   const userImg = document.createElement('img');
   const cardInfo = document.createElement('div');
   const userName = document.createElement('h3');
@@ -97,14 +94,14 @@ function createGHCard(login) {
   // let address.setAttribute('href', link)
   // const link = #; 
 
-  userImg.src = login.avatar_url;
-  userName.textContent =  login.name;
-  userUsername.textContent = login.login;
-  location.textContent = login.location;
-  profileLink.textContent = login.url;
-  followers.textContent = login.followers;
-  following.textContent = login.following;
-  bio.textContent = login.bio;
+  userImg.src = `${user.avatar_url}`;
+  userName.textContent =  `${user.name}`;
+  userUsername.textContent = `${user.login}`;
+  location.textContent = `${user.location}`;
+  profileLink.textContent = `${user.url}`;
+  followers.textContent = `${user.followers}`;
+  following.textContent = `${user.following}`;
+  bio.textContent = `${user.bio}`;
 
   // adding the classList
   card.classList.add('card');
@@ -129,18 +126,16 @@ function createGHCard(login) {
 
 
 // appending
-// card.appendChild('userImg');
-// console.log(card);
-// card.appendChild('cardInfo');
-
-cardInfo.appendChild('userName');
-cardInfo.appendChild('userUserName');
-cardInfo.appendChild('location');
-cardInfo.appendChild('profile');
-profile.appendChild('profileLink');
-cardInfo.appendChild('followers');
-cardInfo.appendChild('following');
-cardInfo.appendChild('bio');
+card.appendChild(userImg);
+card.appendChild(cardInfo);
+cardInfo.appendChild(userName);
+cardInfo.appendChild(userUsername);
+cardInfo.appendChild(location);
+cardInfo.appendChild(profile);
+profile.appendChild(profileLink);
+cardInfo.appendChild(followers);
+cardInfo.appendChild(following);
+cardInfo.appendChild(bio);
 
 
 return card;
@@ -184,7 +179,3 @@ return card;
 // }
 
 // const GHCards = new GHCard();
-
-
-
-
